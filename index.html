@@ -2,107 +2,182 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GameOnX</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameOnX - Live Streaming</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-color: #0e0e0e;
-      --accent: #1f1f1f;
-      --primary: #00ffe7;
-      --text: #ffffff;
-    }
-
     body {
       margin: 0;
       font-family: 'Orbitron', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text);
+      background-color: #0f0f0f;
+      color: #ffffff;
     }
-
     header {
-      background-color: var(--accent);
+      background: #1a1a1a;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 30px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-      position: sticky;
-      top: 0;
-      z-index: 999;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
     }
-
     .logo {
-      font-size: 1.8em;
+      font-size: 1.8rem;
       font-weight: bold;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 2px;
+      color: #00ffcc;
     }
-
-    .actions a {
-      color: var(--text);
+    .header-actions a {
+      color: #ffffff;
+      margin-left: 1rem;
       text-decoration: none;
-      background: var(--primary);
-      padding: 10px 18px;
-      margin-left: 15px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 0.9em;
-      transition: background 0.3s;
+      font-size: 1rem;
     }
-
-    .actions a:hover {
-      background: #00ccb7;
+    .main {
+      display: flex;
+      flex-direction: row;
+      padding: 2rem;
     }
-
-    .video-container {
-      margin: 40px auto;
-      width: 90%;
-      max-width: 1000px;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 255, 231, 0.1);
+    .video-section {
+      flex: 2;
+      position: relative;
     }
-
-    iframe {
+    #player {
       width: 100%;
-      height: 600px;
-      border: none;
+      height: 500px;
+      border-radius: 10px;
       background: #000;
     }
-
-    @media (max-width: 768px) {
-      iframe {
-        height: 400px;
-      }
-
-      .actions a {
-        padding: 8px 12px;
-        font-size: 0.8em;
-      }
-
-      .logo {
-        font-size: 1.3em;
-      }
+    .thumbnail {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      border-radius: 10px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      cursor: pointer;
+    }
+    .live-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: red;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      z-index: 3;
+    }
+    .chat-section {
+      flex: 1;
+      margin-left: 2rem;
+      background: #1f1f1f;
+      border-radius: 10px;
+      padding: 1rem;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+    }
+    #chatBox {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+    #chatInput {
+      padding: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+    }
+    .resolution-select {
+      margin: 1rem 0;
     }
   </style>
 </head>
 <body>
-
   <header>
     <div class="logo">GameOnX</div>
-    <div class="actions">
-      <a href="#" target="_blank">Join Grup</a>
-      <a href="#" target="_blank">Donasi</a>
+    <div class="header-actions">
+      <a href="#">Join Grup</a>
+      <a href="#">Donasi</a>
     </div>
   </header>
 
-  <main>
-    <div class="video-container">
-      <iframe src="https://sunflower.micinproject.de/volleyballworld/stx-ZDtvoomK/watch" allowfullscreen></iframe>
+  <main class="main">
+    <div class="video-section">
+      <div class="live-badge" id="liveBadge">LIVE</div>
+      <img src="thumbnail.jpg" id="thumbnail" class="thumbnail" alt="Thumbnail" />
+      <video id="player" controls></video>
+      <div class="resolution-select">
+        <label for="resSelect">Pilih Resolusi: </label>
+        <select id="resSelect">
+          <option value="https://example.com/stream_1080p.m3u8">1080p</option>
+          <option value="https://example.com/stream_720p.m3u8">720p</option>
+          <option value="https://example.com/stream_480p.m3u8">480p</option>
+        </select>
+      </div>
+    </div>
+    <div class="chat-section">
+      <h3>Chat Langsung</h3>
+      <div id="chatBox"></div>
+      <input type="text" id="chatInput" placeholder="Ketik pesan dan tekan Enter..." />
     </div>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    const video = document.getElementById('player');
+    const thumbnail = document.getElementById('thumbnail');
+    const resSelect = document.getElementById('resSelect');
+    const liveBadge = document.getElementById('liveBadge');
+
+    function loadVideo(source) {
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(source);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play();
+        });
+        hls.on(Hls.Events.ERROR, function (event, data) {
+          if (data.fatal) {
+            liveBadge.style.display = 'none';
+          }
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = source;
+        video.addEventListener('loadedmetadata', function () {
+          video.play();
+        });
+        video.addEventListener('error', () => {
+          liveBadge.style.display = 'none';
+        });
+      }
+    }
+
+    thumbnail.addEventListener('click', () => {
+      thumbnail.style.display = 'none';
+      loadVideo(resSelect.value);
+    });
+
+    resSelect.addEventListener('change', () => {
+      loadVideo(resSelect.value);
+    });
+
+    // Chat Real-time Dummy (local simulation only)
+    const chatInput = document.getElementById('chatInput');
+    const chatBox = document.getElementById('chatBox');
+
+    chatInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && chatInput.value.trim() !== '') {
+        const msg = document.createElement('div');
+        msg.textContent = 'Anda: ' + chatInput.value;
+        chatBox.appendChild(msg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        chatInput.value = '';
+      }
+    });
+  </script>
 </body>
 </html>
