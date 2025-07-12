@@ -24,23 +24,23 @@
   <!-- Judul -->
   <div class="text-center mt-2 mb-2">
     <div class="inline-block bg-gradient-to-r from-blue-700 to-purple-700 px-6 py-2 rounded-xl text-lg font-bold shadow-lg">
-      Pilih Siaran Langsung
+      Siaran Langsung
     </div>
   </div>
 
   <!-- Channel Thumbnails -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 px-4">
     <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" onclick="loadStream(0)">
-      <img src="https://via.placeholder.com/640x360?text=Jepang+vs+Polandia" class="w-full" alt="Jepang vs Polandia">
-      <div class="p-2 text-center font-semibold">Channel 1: Jepang vs Polandia</div>
+      <img src="https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/V9dnjotp/live.isml/.m3u8" class="w-full" alt="Jepang vs Polandia">
+      <div class="p-2 text-center font-semibold">LIVE 1: Czechia vs Netherlands</div>
     </div>
     <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" onclick="loadStream(1)">
-      <img src="https://via.placeholder.com/640x360?text=Brasil+vs+Prancis" class="w-full" alt="Brasil vs Prancis">
-      <div class="p-2 text-center font-semibold">Channel 2: Brasil vs Prancis</div>
+      <img src="https://cdn.jwplayer.com/v2/media/6UYHUr6m/poster.jpg?width=320" class="w-full" alt="Brasil vs Prancis">
+      <div class="p-2 text-center font-semibold">LIVE 2: Turkiye vs Italy</div>
     </div>
     <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" onclick="loadStream(2)">
-      <img src="https://via.placeholder.com/640x360?text=Argentina+vs+Italia" class="w-full" alt="Argentina vs Italia">
-      <div class="p-2 text-center font-semibold">Channel 3: Argentina vs Italia</div>
+      <img src="https://cdn.jwplayer.com/v2/media/zF6z8ufX/poster.jpg?width=320" class="w-full" alt="Argentina vs Italia">
+      <div class="p-2 text-center font-semibold">LIVE 3: Germany vs China</div>
     </div>
   </div>
 
@@ -62,7 +62,7 @@
   <!-- QR Donasi -->
   <div id="donasi" class="flex justify-center mt-6 px-4">
     <div class="bg-white p-4 rounded-xl shadow-lg text-center">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://link.donasi.com" alt="QR Donasi" class="mx-auto mb-2" />
+      <img src="https://sociabuzz.com/pro/tribe/qrcode/v2/3328917924/?size=200x200&data=https://link.donasi.com" alt="QR Donasi" class="mx-auto mb-2" />
       <p class="text-black font-semibold">Scan untuk Donasi</p>
     </div>
   </div>
@@ -76,9 +76,9 @@
     const resolutionLabel = document.getElementById("resolutionLabel");
 
     const streamURLs = [
-      "https://example.com/japan-vs-poland.m3u8",
-      "https://example.com/brasil-vs-prancis.m3u8",
-      "https://example.com/argentina-vs-italia.m3u8"
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/V9dnjotp/live.isml/.m3u8",
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/6UYHUr6m/live.isml/.m3u8",
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/zF6z8ufX/live.isml/.m3u8"
     ];
 
     let hls;
