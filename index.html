@@ -2,182 +2,103 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GameOnX - Live Streaming</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GameOnX Multi Channel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      background-color: #0f0f0f;
-      color: #ffffff;
-    }
-    header {
-      background: #1a1a1a;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
-    }
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #00ffcc;
-    }
-    .header-actions a {
-      color: #ffffff;
-      margin-left: 1rem;
-      text-decoration: none;
-      font-size: 1rem;
-    }
-    .main {
-      display: flex;
-      flex-direction: row;
-      padding: 2rem;
-    }
-    .video-section {
-      flex: 2;
-      position: relative;
-    }
-    #player {
-      width: 100%;
-      height: 500px;
-      border-radius: 10px;
-      background: #000;
-    }
-    .thumbnail {
-      width: 100%;
-      height: 500px;
-      object-fit: cover;
-      border-radius: 10px;
+    #watermark {
       position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 2;
-      cursor: pointer;
+      width: 100px;
+      opacity: 0.2;
+      z-index: 10;
+      pointer-events: none;
+      animation: moveWatermark 10s linear infinite;
     }
-    .live-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: red;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.9rem;
-      font-weight: bold;
-      z-index: 3;
-    }
-    .chat-section {
-      flex: 1;
-      margin-left: 2rem;
-      background: #1f1f1f;
-      border-radius: 10px;
-      padding: 1rem;
-      height: 500px;
-      display: flex;
-      flex-direction: column;
-    }
-    #chatBox {
-      flex: 1;
-      overflow-y: auto;
-      margin-bottom: 1rem;
-    }
-    #chatInput {
-      padding: 0.5rem;
-      border: none;
-      border-radius: 5px;
-      width: 100%;
-    }
-    .resolution-select {
-      margin: 1rem 0;
+
+    @keyframes moveWatermark {
+      0%   { top: 5%; left: 5%; }
+      25%  { top: 5%; right: 5%; left: auto; }
+      50%  { bottom: 5%; right: 5%; top: auto; }
+      75%  { bottom: 5%; left: 5%; right: auto; }
+      100% { top: 5%; left: 5%; bottom: auto; }
     }
   </style>
 </head>
-<body>
-  <header>
-    <div class="logo">GameOnX</div>
-    <div class="header-actions">
-      <a href="#">Join Grup</a>
-      <a href="#">Donasi</a>
+
+<body class="bg-gray-900 text-white font-sans min-h-screen flex flex-col relative">
+
+  <!-- Watermark -->
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Logo_example.png" alt="Watermark" id="watermark">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center px-4 py-3">
+    <div class="text-2xl font-bold">
+      <span class="text-white">GAME</span><span class="text-red-600">ON</span><span class="text-white">X</span>
+    </div>
+    <div class="flex gap-2 text-sm">
+      <a href="https://wa.me/6281234567890" target="_blank" class="bg-green-600 px-3 py-1 rounded-lg font-semibold">Join Grup</a>
+      <a href="#donasi" class="bg-purple-600 px-3 py-1 rounded-lg font-semibold">Donasi</a>
     </div>
   </header>
 
-  <main class="main">
-    <div class="video-section">
-      <div class="live-badge" id="liveBadge">LIVE</div>
-      <img src="https://cdn.jwplayer.com/v2/media/ZDtvoomK/poster.jpg?width=1920" id="thumbnail" class="thumbnail" alt="Thumbnail" />
-      <video id="player" controls></video>
-      <div class="resolution-select">
-        <label for="resSelect">Pilih Resolusi: </label>
-        <select id="resSelect">
-          <option value="https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/IQZByzoY/live.isml/.m3u8">1080p</option>
-          <option value="https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/IQZByzoY/live.isml/.m3u8">720p</option>
-          <option value="https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/IQZByzoY/live.isml/.m3u8">480p</option>
-        </select>
-      </div>
+  <!-- Judul -->
+  <div class="text-center mt-2 mb-2">
+    <div class="inline-block bg-gradient-to-r from-blue-700 to-purple-700 px-6 py-2 rounded-xl text-lg font-bold shadow-lg">
+      Pilih Siaran Live
     </div>
-    <div class="chat-section">
-      <h3>Chat Langsung</h3>
-      <div id="chatBox"></div>
-      <input type="text" id="chatInput" placeholder="Ketik pesan dan tekan Enter..." />
-    </div>
-  </main>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <!-- Channel Selector -->
+  <div class="flex justify-center gap-2 flex-wrap px-4">
+    <button onclick="loadStream(0)" class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-blue-600">Channel 1: Jepang vs Polandia</button>
+    <button onclick="loadStream(1)" class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-blue-600">Channel 2: Brasil vs Prancis</button>
+    <button onclick="loadStream(2)" class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-blue-600">Channel 3: Argentina vs Italia</button>
+  </div>
+
+  <!-- Video Player -->
+  <div class="flex justify-center mt-4 px-4 relative">
+    <video id="videoPlayer" controls class="w-full max-w-4xl rounded-md shadow-xl bg-black"></video>
+  </div>
+
+  <!-- QR Donasi -->
+  <div id="donasi" class="flex justify-center mt-6 px-4">
+    <div class="bg-white p-4 rounded-xl shadow-lg text-center">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://link.donasi.com" alt="QR Donasi" class="mx-auto mb-2" />
+      <p class="text-black font-semibold">Scan untuk Donasi</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center text-xs mt-10 mb-4 text-gray-400">© 2025 GameOnX</footer>
+
+  <!-- JS -->
   <script>
-    const video = document.getElementById('player');
-    const thumbnail = document.getElementById('thumbnail');
-    const resSelect = document.getElementById('resSelect');
-    const liveBadge = document.getElementById('liveBadge');
+    const video = document.getElementById("videoPlayer");
+    const streamURLs = [
+      "https://example.com/japan-vs-poland.m3u8",
+      "https://example.com/brasil-vs-prancis.m3u8",
+      "https://example.com/argentina-vs-italia.m3u8"
+    ];
 
-    function loadVideo(source) {
+    let hls;
+
+    function loadStream(index) {
+      const src = streamURLs[index];
       if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(source);
+        if (hls) {
+          hls.destroy();
+        }
+        hls = new Hls();
+        hls.loadSource(src);
         hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-          video.play();
-        });
-        hls.on(Hls.Events.ERROR, function (event, data) {
-          if (data.fatal) {
-            liveBadge.style.display = 'none';
-          }
-        });
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = source;
-        video.addEventListener('loadedmetadata', function () {
-          video.play();
-        });
-        video.addEventListener('error', () => {
-          liveBadge.style.display = 'none';
-        });
+        video.src = src;
       }
     }
 
-    thumbnail.addEventListener('click', () => {
-      thumbnail.style.display = 'none';
-      loadVideo(resSelect.value);
-    });
-
-    resSelect.addEventListener('change', () => {
-      loadVideo(resSelect.value);
-    });
-
-    // Chat Real-time Dummy (local simulation only)
-    const chatInput = document.getElementById('chatInput');
-    const chatBox = document.getElementById('chatBox');
-
-    chatInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' && chatInput.value.trim() !== '') {
-        const msg = document.createElement('div');
-        msg.textContent = 'Anda: ' + chatInput.value;
-        chatBox.appendChild(msg);
-        chatBox.scrollTop = chatBox.scrollHeight;
-        chatInput.value = '';
-      }
-    });
+    // Load default channel
+    window.onload = () => loadStream(0);
   </script>
 </body>
 </html>
