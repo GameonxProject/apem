@@ -3,33 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GameOnX Multi Channel</title>
+  <title>GameOnX Live Streaming</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
   <style>
-    #watermark {
-      position: absolute;
-      width: 100px;
-      opacity: 0.2;
-      z-index: 10;
-      pointer-events: none;
-      animation: moveWatermark 10s linear infinite;
+    .thumbnail-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: auto;
     }
 
-    @keyframes moveWatermark {
-      0%   { top: 5%; left: 5%; }
-      25%  { top: 5%; right: 5%; left: auto; }
-      50%  { bottom: 5%; right: 5%; top: auto; }
-      75%  { bottom: 5%; left: 5%; right: auto; }
-      100% { top: 5%; left: 5%; bottom: auto; }
+    .thumbnail-container img {
+      width: 100%;
+      border-radius: 0.5rem;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 4rem;
+      color: white;
+      background-color: rgba(0,0,0,0.5);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+
+    .quality-btn {
+      @apply px-3 py-1 text-sm rounded-md bg-gray-700 hover:bg-blue-600;
+    }
+
+    .quality-active {
+      @apply bg-blue-600;
     }
   </style>
 </head>
 
-<body class="bg-gray-900 text-white font-sans min-h-screen flex flex-col relative">
-
-  <!-- Watermark -->
-  <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Logo_example.png" alt="Watermark" id="watermark">
+<body class="bg-gray-900 text-white font-sans min-h-screen flex flex-col">
 
   <!-- Header -->
   <header class="flex justify-between items-center px-4 py-3">
@@ -45,24 +59,40 @@
   <!-- Judul -->
   <div class="text-center mt-2 mb-2">
     <div class="inline-block bg-gradient-to-r from-blue-700 to-purple-700 px-6 py-2 rounded-xl text-lg font-bold shadow-lg">
-      Pilih Siaran Live
+      LIVE - Pilih Channel & Kualitas
     </div>
   </div>
 
   <!-- Channel Selector -->
-  <div class="flex justify-center gap-2 flex-wrap px-4">
-    <button onclick="loadStream(0)" class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-blue-600">Channel 1: Jepang vs Polandia</button>
-    <button onclick="loadStream(1)" class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-blue-600">Channel 2: Brasil vs Prancis</button>
-    <button onclick="loadStream(2)" class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-blue-600">Channel 3: Argentina vs Italia</button>
+  <div class="flex justify-center gap-2 flex-wrap px-4 mb-2">
+    <button onclick="loadStream(0)" class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-blue-600">Channel 1</button>
+    <button onclick="loadStream(1)" class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-blue-600">Channel 2</button>
+    <button onclick="loadStream(2)" class="bg-gray-800 px-4 py-2 rounded-lg hover:bg-blue-600">Channel 3</button>
   </div>
 
-  <!-- Video Player -->
-  <div class="flex justify-center mt-4 px-4 relative">
-    <video id="videoPlayer" controls class="w-full max-w-4xl rounded-md shadow-xl bg-black"></video>
+  <!-- Player Section -->
+  <div class="relative flex justify-center px-4 mt-2 mb-2">
+    <!-- Thumbnail -->
+    <div id="thumbnail" class="thumbnail-container">
+      <img src="https://via.placeholder.com/800x450?text=GameOnX+Live+Stream" alt="Thumbnail" />
+      <div class="play-button" onclick="playVideo()">
+        <i class="fas fa-play-circle"></i>
+      </div>
+    </div>
+
+    <!-- Video -->
+    <video id="videoPlayer" controls class="w-full max-w-4xl rounded-md shadow-xl bg-black hidden"></video>
+  </div>
+
+  <!-- Quality Control -->
+  <div class="flex justify-center items-center gap-3 mt-2 mb-2">
+    <div class="text-sm text-gray-400">Kualitas:</div>
+    <div id="qualityButtons" class="flex gap-2 text-sm"></div>
+    <div class="text-sm text-green-400" id="currentQuality">Otomatis</div>
   </div>
 
   <!-- QR Donasi -->
-  <div id="donasi" class="flex justify-center mt-6 px-4">
+  <div id="donasi" class="flex justify-center mt-4 px-4">
     <div class="bg-white p-4 rounded-xl shadow-lg text-center">
       <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://link.donasi.com" alt="QR Donasi" class="mx-auto mb-2" />
       <p class="text-black font-semibold">Scan untuk Donasi</p>
@@ -72,29 +102,76 @@
   <!-- Footer -->
   <footer class="text-center text-xs mt-10 mb-4 text-gray-400">© 2025 GameOnX</footer>
 
-  <!-- JS -->
+  <!-- Script -->
   <script>
     const video = document.getElementById("videoPlayer");
+    const thumbnail = document.getElementById("thumbnail");
+    const qualityButtons = document.getElementById("qualityButtons");
+    const currentQuality = document.getElementById("currentQuality");
+
     const streamURLs = [
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/V9dnjotp/live.isml/.m3u8",
-      "https://sayonara.wideiptv.top/tntsports2/index.fmp4.m3u8?token=b639ea197cdeaf40312f536d39ba548133253b93-68e21291c4cc7a588f3547e332a35137-1752335465-1752324665",
-      "https://example.com/argentina-vs-italia.m3u8"
+      "https://example.com/japan.m3u8",
+      "https://example.com/brasil.m3u8",
+      "https://example.com/argentina.m3u8"
     ];
 
     let hls;
 
+    function playVideo() {
+      thumbnail.classList.add('hidden');
+      video.classList.remove('hidden');
+      video.play();
+    }
+
     function loadStream(index) {
       const src = streamURLs[index];
-      if (Hls.isSupported()) {
-        if (hls) {
-          hls.destroy();
+      if (hls) hls.destroy();
+      hls = new Hls();
+      hls.loadSource(src);
+      hls.attachMedia(video);
+
+      thumbnail.classList.remove('hidden');
+      video.classList.add('hidden');
+
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        qualityButtons.innerHTML = '';
+
+        // Tambah tombol AUTO
+        const autoBtn = document.createElement('button');
+        autoBtn.textContent = 'Auto';
+        autoBtn.className = 'quality-btn quality-active';
+        autoBtn.onclick = () => setQuality(-1);
+        qualityButtons.appendChild(autoBtn);
+
+        hls.levels.forEach((level, i) => {
+          const btn = document.createElement('button');
+          btn.textContent = `${level.height}p`;
+          btn.className = 'quality-btn';
+          btn.onclick = () => setQuality(i);
+          qualityButtons.appendChild(btn);
+        });
+
+        currentQuality.textContent = "Otomatis";
+
+        // Update kualitas aktif real-time
+        hls.on(Hls.Events.LEVEL_SWITCHED, (event, data) => {
+          const level = hls.levels[data.level];
+          if (level) {
+            currentQuality.textContent = `${level.height}p`;
+          }
+        });
+      });
+    }
+
+    function setQuality(level) {
+      hls.currentLevel = level;
+      // Update style tombol
+      [...qualityButtons.children].forEach((btn, idx) => {
+        btn.classList.remove('quality-active');
+        if ((level === -1 && idx === 0) || idx === level + 1) {
+          btn.classList.add('quality-active');
         }
-        hls = new Hls();
-        hls.loadSource(src);
-        hls.attachMedia(video);
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = src;
-      }
+      });
     }
 
     // Load default channel
