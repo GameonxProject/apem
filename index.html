@@ -16,15 +16,15 @@
       <span class="text-white">GAME</span><span class="text-red-600">ON</span><span class="text-white">X</span>
     </div>
     <div class="flex gap-2 text-sm">
-      <a href="https://wa.me/6281234567890" target="_blank" class="bg-green-600 px-3 py-1 rounded-lg font-semibold">Join Grup</a>
-      <a href="https://link.donasi.com" target="_blank" class="bg-purple-600 px-3 py-1 rounded-lg font-semibold">Donasi</a>
+      <a href="https://chat.whatsapp.com/L9pViyD35Zq439t75avxq8" target="_blank" class="bg-green-600 px-3 py-1 rounded-lg font-semibold">Join Grup</a>
+      <a href="https://sociabuzz.com/fiqaz/donate" target="_blank" class="bg-purple-600 px-3 py-1 rounded-lg font-semibold">Donasi</a>
     </div>
   </header>
 
   <!-- Judul -->
   <div class="text-center mt-4 mb-2">
     <div class="inline-block bg-gradient-to-r from-blue-700 to-purple-700 px-6 py-2 rounded-xl text-lg font-bold shadow-lg">
-      Live Streaming Sports
+      Live Streaming
     </div>
   </div>
 
@@ -45,13 +45,6 @@
     </div>
   </div>
 
-  <!-- Pilih Channel -->
-  <div class="flex justify-center gap-3 mt-4 flex-wrap text-sm">
-    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(0)">Channel 1</button>
-    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">Channel 2</button>
-    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">Channel 3</button>
-  </div>
-
   <!-- Quality Buttons -->
   <div class="flex justify-center mt-2 gap-2 text-sm">
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQuality('auto')">Auto</button>
@@ -60,11 +53,26 @@
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQualityByHeight(720)">720p</button>
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQualityByHeight(1080)">1080p</button>
   </div>
+  </div>
+  </div>
+  
+  <!-- Pilih Channel -->
+  <div class="flex justify-center gap-3 mt-4 flex-wrap text-sm">
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(0)">LIVE 1</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">LIVE 2</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">LIVE 3</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(3)">LIVE 4</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(4)">LIVE 5</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(5)">LIVE 6</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(6)">LIVE 7</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(7)">LIVE 8</button>
+
+  </div>
 
   <!-- QR Donasi -->
   <div id="donasi" class="flex justify-center mt-6 px-4">
     <div class="bg-white p-4 rounded-xl shadow-lg text-center">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://link.donasi.com" alt="QR Donasi" class="mx-auto mb-2" />
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://sociabuzz.com/pro/tribe/qrcode/v2/3328917924" alt="QR Donasi" class="mx-auto mb-2" />
       <p class="text-black font-semibold">Scan untuk Donasi</p>
     </div>
   </div>
@@ -79,14 +87,20 @@
 
     const streamURLs = [
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/V9dnjotp/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/Mp3CHFgN/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/x42n500f/live.isml/.m3u8"
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/6UYHUr6m/live.isml/.m3u8",
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/zF6z8ufX/live.isml/.m3u8",
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/bn1UxIsA/live.isml/.m3u8",
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/M4oX2s9G/live.isml/.m3u8",
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/PLLWqUYr/live.isml/.m3u8",
+      "",
+      "",
+
     ];
 
     const posterURLs = [
-      "https://cdn.jwplayer.com/v2/media/V9dnjotp/poster.jpg?width=320",
-      "https://cdn.jwplayer.com/v2/media/Mp3CHFgN/poster.jpg?width=320s",
-      "https://cdn.jwplayer.com/v2/media/x42n500f/poster.jpg?width=320"
+      "",
+      "",
+      ""
     ];
 
     let hls;
