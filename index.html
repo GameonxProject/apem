@@ -30,13 +30,9 @@
 
   <!-- Video Container -->
   <div class="flex justify-center mt-4 px-4 relative">
-    <div class="relative w-full max-w-7xl aspect-video">
-      <video id="videoPlayer" 
-        controls 
-        class="absolute top-0 left-0 w-full h-full object-cover rounded-md shadow-xl bg-black"
-        poster="https://example.com/thumb-default.jpg"
-        playsinline
-        webkit-playsinline></video>
+    <div class="relative w-full max-w-4xl">
+      <video id="videoPlayer" controls class="w-full rounded-md shadow-xl bg-black" poster="https://example.com/thumb-default.jpg"></video>
+        poster=""></video>
 
       <!-- Custom Play Button -->
       <div id="playButton" onclick="startPlayback()" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 cursor-pointer">
@@ -50,7 +46,7 @@
   </div>
 
   <!-- Quality Buttons -->
-  <div class="flex justify-center mt-4 gap-2 text-sm flex-wrap">
+  <div class="flex justify-center mt-2 gap-2 text-sm">
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQuality('auto')">Auto</button>
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQualityByHeight(360)">360p</button>
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQualityByHeight(540)">540p</button>
@@ -62,6 +58,7 @@
   
   <!-- Pilih Channel -->
   <div class="flex justify-center gap-3 mt-4 flex-wrap text-sm">
+    <button id="btn-0" class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(0)">Turkiye vs Italy</button>
     <button id="btn-1" class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">Germany vs China</button>
     <button id="btn-2" class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">Canada vs USA</button>
     <button id="btn-3" class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(3)">Korea vs France</button>
@@ -86,6 +83,7 @@
     const playBtn = document.getElementById("playButton");
 
     const streamURLs = [
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/6UYHUr6m/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/zF6z8ufX/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/bn1UxIsA/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/M4oX2s9G/live.isml/.m3u8",
