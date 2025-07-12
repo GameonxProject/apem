@@ -16,8 +16,8 @@
       <span class="text-white">GAME</span><span class="text-red-600">ON</span><span class="text-white">X</span>
     </div>
     <div class="flex gap-2 text-sm">
-      <a href="https://wa.me/6281234567890" target="_blank" class="bg-green-600 px-3 py-1 rounded-lg font-semibold">Join Grup</a>
-      <a href="https://link.donasi.com" target="_blank" class="bg-purple-600 px-3 py-1 rounded-lg font-semibold">Donasi</a>
+      <a href="https://chat.whatsapp.com/L9pViyD35Zq439t75avxq8" target="_blank" class="bg-green-600 px-3 py-1 rounded-lg font-semibold">Join Grup</a>
+      <a href="https://sociabuzz.com/fiqaz/donate" target="_blank" class="bg-purple-600 px-3 py-1 rounded-lg font-semibold">Donasi</a>
     </div>
   </header>
 
@@ -31,14 +31,7 @@
   <!-- Video Player -->
   <div class="flex justify-center mt-4 px-4">
     <video id="videoPlayer" controls class="w-full max-w-4xl rounded-md shadow-xl bg-black"
-      poster="https://cdn.jwplayer.com/v2/media/V9dnjotp/poster.jpg?width=320"></video>
-  </div>
-
-  <!-- Pilih Channel -->
-  <div class="flex justify-center gap-3 mt-4 flex-wrap text-sm">
-    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(0)">Channel 1</button>
-    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">Channel 2</button>
-    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">Channel 3</button>
+      poster="https://www.shutterstock.com/shutterstock/videos/3462523569/thumb/1.jpg?ip=x480"></video>
   </div>
 
   <!-- Quality Buttons -->
@@ -50,10 +43,18 @@
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQualityByHeight(1080)">1080p</button>
   </div>
 
+  
+  <!-- Pilih Channel -->
+  <div class="flex justify-center gap-3 mt-4 flex-wrap text-sm">
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(0)">Channel 1</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">Channel 2</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">Channel 3</button>
+  </div>
+
   <!-- QR Donasi -->
   <div id="donasi" class="flex justify-center mt-6 px-4">
     <div class="bg-white p-4 rounded-xl shadow-lg text-center">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://link.donasi.com" alt="QR Donasi" class="mx-auto mb-2" />
+      <img src="https://sociabuzz.com/proaccount/svg/icon?color=000000/?size=200x200&data=https://link.donasi.com" alt="QR Donasi" class="mx-auto mb-2" />
       <p class="text-black font-semibold">Scan untuk Donasi</p>
     </div>
   </div>
