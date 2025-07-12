@@ -17,38 +17,29 @@
     </div>
     <div class="flex gap-2 text-sm">
       <a href="https://wa.me/6281234567890" target="_blank" class="bg-green-600 px-3 py-1 rounded-lg font-semibold">Join Grup</a>
-      <a href="#donasi" class="bg-purple-600 px-3 py-1 rounded-lg font-semibold">Donasi</a>
+      <a href="https://link.donasi.com" target="_blank" class="bg-purple-600 px-3 py-1 rounded-lg font-semibold">Donasi</a>
     </div>
   </header>
 
   <!-- Judul -->
-  <div class="text-center mt-2 mb-2">
+  <div class="text-center mt-4 mb-2">
     <div class="inline-block bg-gradient-to-r from-blue-700 to-purple-700 px-6 py-2 rounded-xl text-lg font-bold shadow-lg">
-      Siaran Langsung
-    </div>
-  </div>
-
-  <!-- Channel Thumbnails -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 px-4">
-    <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" onclick="loadStream(0)">
-      <img src="https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/V9dnjotp/live.isml/.m3u8" class="w-full" alt="Jepang vs Polandia">
-      <div class="p-2 text-center font-semibold">LIVE 1: Czechia vs Netherlands</div>
-    </div>
-    <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" onclick="loadStream(1)">
-      <img src="https://cdn.jwplayer.com/v2/media/6UYHUr6m/poster.jpg?width=320" class="w-full" alt="Brasil vs Prancis">
-      <div class="p-2 text-center font-semibold">LIVE 2: Turkiye vs Italy</div>
-    </div>
-    <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" onclick="loadStream(2)">
-      <img src="https://cdn.jwplayer.com/v2/media/zF6z8ufX/poster.jpg?width=320" class="w-full" alt="Argentina vs Italia">
-      <div class="p-2 text-center font-semibold">LIVE 3: Germany vs China</div>
+      Live Streaming Sports
     </div>
   </div>
 
   <!-- Video Player -->
-  <div class="flex justify-center mt-6 px-4 relative">
-    <video id="videoPlayer" controls class="w-full max-w-4xl rounded-md shadow-xl bg-black"></video>
+  <div class="flex justify-center mt-4 px-4 relative">
+    <video id="videoPlayer" controls class="w-full max-w-4xl rounded-md shadow-xl bg-black" poster="https://via.placeholder.com/640x360?text=Jepang+vs+Polandia"></video>
     <!-- Resolusi aktif -->
     <div id="resolutionLabel" class="absolute top-2 right-2 bg-black bg-opacity-50 px-2 py-1 rounded text-xs hidden"></div>
+  </div>
+
+  <!-- Pilih Channel -->
+  <div class="flex justify-center gap-3 mt-4 flex-wrap text-sm">
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(0)">LIVE 1</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">LIVE 2</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">LIVE 3</button>
   </div>
 
   <!-- Quality Control Buttons -->
@@ -62,7 +53,7 @@
   <!-- QR Donasi -->
   <div id="donasi" class="flex justify-center mt-6 px-4">
     <div class="bg-white p-4 rounded-xl shadow-lg text-center">
-      <img src="https://sociabuzz.com/pro/tribe/qrcode/v2/3328917924/?size=200x200&data=https://link.donasi.com" alt="QR Donasi" class="mx-auto mb-2" />
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://link.donasi.com" alt="QR Donasi" class="mx-auto mb-2" />
       <p class="text-black font-semibold">Scan untuk Donasi</p>
     </div>
   </div>
@@ -77,14 +68,23 @@
 
     const streamURLs = [
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/V9dnjotp/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/6UYHUr6m/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/zF6z8ufX/live.isml/.m3u8"
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/Mp3CHFgN/live.isml/.m3u8",
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/x42n500f/live.isml/.m3u8"
+    ];
+
+    const posterURLs = [
+      "https://cdn.jwplayer.com/v2/media/V9dnjotp/poster.jpg?width=320",
+      "https://cdn.jwplayer.com/v2/media/Mp3CHFgN/poster.jpg?width=320s",
+      "https://cdn.jwplayer.com/v2/media/x42n500f/poster.jpg?width=320"
     ];
 
     let hls;
 
     function loadStream(index) {
       const src = streamURLs[index];
+      const poster = posterURLs[index];
+      video.poster = poster;
+
       if (Hls.isSupported()) {
         if (hls) hls.destroy();
         hls = new Hls();
@@ -121,8 +121,9 @@
       }
     }
 
-    // Load default
-    window.onload = () => loadStream(0);
+    window.onload = () => {
+      loadStream(0);
+    };
   </script>
 </body>
 </html>
