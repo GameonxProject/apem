@@ -31,7 +31,7 @@
   <!-- Video Container -->
   <div class="flex justify-center mt-4 px-4 relative">
     <div class="relative w-full max-w-4xl">
-      <video id="videoPlayer" controls class="w-full rounded-md shadow-xl bg-black" poster="https://example.com/thumb-default.jpg"></video>
+      <video id="videoPlayer" controls class="w-full rounded-md shadow-xl bg-black"
         poster=""></video>
 
       <!-- Custom Play Button -->
@@ -58,11 +58,11 @@
   
   <!-- Pilih Channel -->
   <div class="flex justify-center gap-3 mt-4 flex-wrap text-sm">
-    <button id="btn-0" class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(0)">LIVE 1</button>
-    <button id="btn-1" class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">LIVE 2</button>
-    <button id="btn-2" class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">LIVE 3</button>
-    <button id="btn-3" class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(3)">LIVE 4</button>
-    <button id="btn-4" class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(4)">LIVE 5</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(0)">1</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">2</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">3</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(3)">3</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(4)">3</button>
 
   </div>
 
@@ -89,7 +89,7 @@
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/KFBSjhzv/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/uts5S1E9/live.isml/.m3u8",
       "",
-      ""
+      "",
 
     ];
 
@@ -97,35 +97,14 @@
       "",
       "",
       ""
-      ""
-      ""
     ];
 
     let hls;
-    
-    async function checkStreamActive(url) {
-      try {
-        const res = await fetch(url, { method: "HEAD" });
-        return res.ok;
-      } catch (err) {
-        return false;
-      }
-    }
 
-    async function loadStream(index) {
+    function loadStream(index) {
       const src = streamURLs[index];
       const poster = posterURLs[index];
       video.poster = poster;
-      ...
-      
-    const isOnline = await checkStreamActive(src);
-    if (!isOnline) {
-      alert("Channel sedang offline.");
-      video.src = "";
-      playBtn.classList.remove("hidden");
-      return;
-      
-    }
 
       if (Hls.isSupported()) {
         if (hls) hls.destroy();
@@ -162,15 +141,7 @@
     }
 
     window.onload = () => {
-      let foundFirstLive = false;
-      for (let i = 0; i < streamURLs.length; i++) {
-        const active = await checkStreamActive(streamURLs[i]);
-        const btn = document.getElementById(`btn-${i}`);
-        if (!active) {
-          if (btn) btn.remove();
-       } else if (!foundFirstLive) {
-         foundFirstLive = true;
-         loadStream(i);
+      loadStream(0);
     };
   </script>
 </body>
