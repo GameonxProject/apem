@@ -99,10 +99,53 @@
   </div>
 </div>
 
-<!-- Konten lainnya tetap seperti sebelumnya -->
+<!-- Video dan Konten -->
+<div class="flex-1 flex flex-col items-center justify-center gap-4 p-4">
+  <video id="videoPlayer" class="w-full max-w-5xl rounded-lg shadow-lg" controls autoplay muted></video>
+
+  <!-- Tombol Channel -->
+  <div id="channelButtons" class="flex flex-wrap justify-center gap-2"></div>
+</div>
+
+<!-- Footer -->
+<footer class="text-center text-xs mt-10 mb-4 text-gray-400">© 2025 GameOnX</footer>
+
 <script>
+  const streamURLs = [
+    "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/M4oX2s9G/live.isml/.m3u8",
+    "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/PLLWqUYr/live.isml/.m3u8",
+    "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/KFBSjhzv/live.isml/.m3u8",
+    "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/uts5S1E9/live.isml/.m3u8",
+    "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/PXv9vWrO/live.isml/.m3u8",
+    "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/O8t0B4Zz/live.isml/.m3u8",
+  ];
+
+  let hls;
+
+  function loadStream(index) {
+    const video = document.getElementById("videoPlayer");
+    const src = streamURLs[index];
+    if (Hls.isSupported()) {
+      if (hls) hls.destroy();
+      hls = new Hls();
+      hls.loadSource(src);
+      hls.attachMedia(video);
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = src;
+    }
+  }
+
   window.onload = () => {
     loadStream(0);
+
+    const buttonContainer = document.getElementById("channelButtons");
+    streamURLs.forEach((_, index) => {
+      const btn = document.createElement("button");
+      btn.textContent = `Channel ${index + 1}`;
+      btn.className = "bg-red-600 px-3 py-1 rounded text-white font-semibold text-sm";
+      btn.onclick = () => loadStream(index);
+      buttonContainer.appendChild(btn);
+    });
   };
 </script>
 
