@@ -6,72 +6,9 @@
   <title>GameOnX Live Channel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, onValue, onDisconnect, set, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyA7lftRxFc1pJWUPRPTqfs2M2SHHbOUXoI",
-      authDomain: "gaskeun-5c1e0.firebaseapp.com",
-      databaseURL: "https://gaskeun-5c1e0-default-rtdb.firebaseio.com",
-      projectId: "gaskeun-5c1e0",
-      storageBucket: "gaskeun-5c1e0.appspot.com",
-      messagingSenderId: "158810899965",
-      appId: "1:158810899965:web:e33b2c1c6c75a5cf78fa30"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    const viewerCountEl = document.getElementById("viewerCount");
-    const userId = "user_" + Math.random().toString(36).substring(2);
-    const viewerRef = ref(db, `viewers/${userId}`);
-    set(viewerRef, { active: true, time: serverTimestamp() });
-    onDisconnect(viewerRef).remove();
-
-    const allViewersRef = ref(db, "viewers");
-    onValue(allViewersRef, (snapshot) => {
-      const count = snapshot.size;
-      if (viewerCountEl) {
-        viewerCountEl.textContent = `👁️ ${count}`;
-      }
-    });
-
-    // Realtime Chat
-    const username = localStorage.getItem("username") || prompt("Masukkan nama kamu:");
-    localStorage.setItem("username", username);
-
-    const chatRef = ref(db, "chat");
-    const chatMessages = document.getElementById("chatMessages");
-
-    onValue(chatRef, (snapshot) => {
-      chatMessages.innerHTML = "";
-      snapshot.forEach((child) => {
-        const { user, message } = child.val();
-        const msgEl = document.createElement("div");
-        msgEl.innerHTML = `<span class='font-semibold text-blue-400'>${user}:</span> ${message}`;
-        chatMessages.appendChild(msgEl);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      });
-    });
-
-    window.sendMessage = () => {
-      const input = document.getElementById("chatInput");
-      const text = input.value.trim();
-      if (text) {
-        push(chatRef, {
-          user: username,
-          message: text,
-          time: serverTimestamp()
-        });
-        input.value = "";
-      }
-    }
-  </script>
 </head>
 <body class="bg-gray-900 text-white font-sans min-h-screen flex flex-col">
 
-<!-- Header -->
 <header class="flex justify-between items-center px-4 py-3">
   <div class="text-2xl font-bold">
     <span class="text-white">GAME</span><span class="text-red-600">ON</span><span class="text-white">X</span>
@@ -83,31 +20,37 @@
   </div>
 </header>
 
-<!-- Chat Sidebar -->
-<div class="fixed right-0 top-16 w-72 max-h-[80vh] bg-gray-800 rounded-l-lg shadow-lg flex flex-col z-50 text-sm">
-  <div class="bg-gray-700 p-2 font-bold text-white flex justify-between items-center">
-    <span>Live Chat</span>
-    <button onclick="document.getElementById('chatBox').classList.toggle('hidden')">🗕</button>
+<div class="flex-1 flex flex-col md:flex-row gap-4 p-4">
+  <div class="flex-1 flex flex-col items-center">
+    <video id="videoPlayer" class="w-full rounded-lg shadow-lg" controls autoplay muted></video>
+
+    <div id="channelButtons" class="flex flex-wrap justify-center gap-2 mt-4"></div>
+
+    <div class="flex flex-wrap justify-center gap-2 mt-2">
+      <button class="bg-blue-600 px-3 py-1 rounded text-white font-semibold text-sm" onclick="setResolution('auto')">Auto</button>
+      <button class="bg-blue-600 px-3 py-1 rounded text-white font-semibold text-sm" onclick="setResolution('360')">360p</button>
+      <button class="bg-blue-600 px-3 py-1 rounded text-white font-semibold text-sm" onclick="setResolution('540')">540p</button>
+      <button class="bg-blue-600 px-3 py-1 rounded text-white font-semibold text-sm" onclick="setResolution('720')">720p</button>
+      <button class="bg-blue-600 px-3 py-1 rounded text-white font-semibold text-sm" onclick="setResolution('1080')">1080p</button>
+    </div>
   </div>
-  <div id="chatBox" class="flex-1 flex flex-col">
-    <div id="chatMessages" class="flex-1 overflow-y-auto p-2 space-y-1"></div>
-    <div class="flex items-center border-t border-gray-600 p-2 gap-1">
-      <input id="chatInput" type="text" placeholder="Ketik pesan..." class="flex-1 rounded px-2 py-1 text-black">
-      <button onclick="sendMessage()" class="bg-blue-600 px-2 py-1 rounded">Kirim</button>
-      <button onclick="document.getElementById('chatInput').value += '😊'">😊</button>
+
+  <div class="w-full md:w-80 max-h-[80vh] bg-gray-800 rounded-lg shadow-lg flex flex-col text-sm">
+    <div class="bg-gray-700 p-2 font-bold text-white flex justify-between items-center">
+      <span>Live Chat</span>
+      <button onclick="document.getElementById('chatBox').classList.toggle('hidden')">🗕</button>
+    </div>
+    <div id="chatBox" class="flex-1 flex flex-col">
+      <div id="chatMessages" class="flex-1 overflow-y-auto p-2 space-y-1"></div>
+      <div class="flex items-center border-t border-gray-600 p-2 gap-1">
+        <input id="chatInput" type="text" placeholder="Ketik pesan..." class="flex-1 rounded px-2 py-1 text-black">
+        <button onclick="sendMessage()" class="bg-blue-600 px-2 py-1 rounded">Kirim</button>
+        <button onclick="document.getElementById('chatInput').value += '😊'">😊</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Video dan Konten -->
-<div class="flex-1 flex flex-col items-center justify-center gap-4 p-4">
-  <video id="videoPlayer" class="w-full max-w-5xl rounded-lg shadow-lg" controls autoplay muted></video>
-
-  <!-- Tombol Channel -->
-  <div id="channelButtons" class="flex flex-wrap justify-center gap-2"></div>
-</div>
-
-<!-- Footer -->
 <footer class="text-center text-xs mt-10 mb-4 text-gray-400">© 2025 GameOnX</footer>
 
 <script>
@@ -121,8 +64,10 @@
   ];
 
   let hls;
+  let currentIndex = 0;
 
   function loadStream(index) {
+    currentIndex = index;
     const video = document.getElementById("videoPlayer");
     const src = streamURLs[index];
     if (Hls.isSupported()) {
@@ -135,9 +80,29 @@
     }
   }
 
+  function setResolution(quality) {
+    let base = streamURLs[currentIndex].split(".isml")[0];
+    let qualityMap = {
+      auto: ".isml/.m3u8",
+      360: ".isml/playlist_360p.m3u8",
+      540: ".isml/playlist_540p.m3u8",
+      720: ".isml/playlist_720p.m3u8",
+      1080: ".isml/playlist_1080p.m3u8"
+    };
+    let newUrl = base + qualityMap[quality];
+    const video = document.getElementById("videoPlayer");
+    if (Hls.isSupported()) {
+      if (hls) hls.destroy();
+      hls = new Hls();
+      hls.loadSource(newUrl);
+      hls.attachMedia(video);
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = newUrl;
+    }
+  }
+
   window.onload = () => {
     loadStream(0);
-
     const buttonContainer = document.getElementById("channelButtons");
     streamURLs.forEach((_, index) => {
       const btn = document.createElement("button");
@@ -147,6 +112,69 @@
       buttonContainer.appendChild(btn);
     });
   };
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, onValue, onDisconnect, set, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA7lftRxFc1pJWUPRPTqfs2M2SHHbOUXoI",
+    authDomain: "gaskeun-5c1e0.firebaseapp.com",
+    databaseURL: "https://gaskeun-5c1e0-default-rtdb.firebaseio.com",
+    projectId: "gaskeun-5c1e0",
+    storageBucket: "gaskeun-5c1e0.appspot.com",
+    messagingSenderId: "158810899965",
+    appId: "1:158810899965:web:e33b2c1c6c75a5cf78fa30"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const viewerCountEl = document.getElementById("viewerCount");
+  const userId = "user_" + Math.random().toString(36).substring(2);
+  const viewerRef = ref(db, `viewers/${userId}`);
+  set(viewerRef, { active: true, time: serverTimestamp() });
+  onDisconnect(viewerRef).remove();
+
+  const allViewersRef = ref(db, "viewers");
+  onValue(allViewersRef, (snapshot) => {
+    const count = snapshot.size;
+    if (viewerCountEl) {
+      viewerCountEl.textContent = `👁️ ${count}`;
+    }
+  });
+
+  const username = localStorage.getItem("username") || prompt("Masukkan nama kamu:");
+  localStorage.setItem("username", username);
+
+  const chatRef = ref(db, "chat");
+  const chatMessages = document.getElementById("chatMessages");
+
+  onValue(chatRef, (snapshot) => {
+    if (!chatMessages) return;
+    chatMessages.innerHTML = "";
+    snapshot.forEach((child) => {
+      const { user, message } = child.val();
+      const msgEl = document.createElement("div");
+      msgEl.innerHTML = `<span class='font-semibold text-blue-400'>${user}:</span> ${message}`;
+      chatMessages.appendChild(msgEl);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+  });
+
+  window.sendMessage = () => {
+    const input = document.getElementById("chatInput");
+    const text = input.value.trim();
+    if (text) {
+      push(chatRef, {
+        user: username,
+        message: text,
+        time: serverTimestamp()
+      });
+      input.value = "";
+    }
+  }
 </script>
 
 </body>
