@@ -7,8 +7,16 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
-
 <body class="bg-gray-900 text-white font-sans min-h-screen flex flex-col">
+
+  <!-- Login Popup -->
+  <div id="loginPopup" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+    <div class="bg-white text-black rounded-xl p-6 text-center w-80">
+      <h2 class="font-bold text-xl mb-4">Masukkan Nama</h2>
+      <input type="text" id="usernameInput" placeholder="Nama Anda" class="w-full border px-3 py-2 rounded mb-4" />
+      <button onclick="saveUsername()" class="bg-blue-600 text-white px-4 py-2 rounded">Mulai Chat</button>
+    </div>
+  </div>
 
   <!-- Header -->
   <header class="flex justify-between items-center px-4 py-3">
@@ -28,18 +36,35 @@
     </div>
   </div>
 
-  <!-- Video Container -->
-  <div class="flex justify-center mt-4 px-4 relative">
-    <div class="relative w-full max-w-4xl">
-      <video id="videoPlayer" controls class="w-full rounded-md shadow-xl bg-black"
-        poster=""></video>
-
-      <!-- Custom Play Button -->
+  <!-- Video + Chat Container -->
+  <div class="flex flex-col md:flex-row w-full max-w-6xl mx-auto mt-4 px-4 gap-4">
+    <!-- Video -->
+    <div class="relative flex-1">
+      <video id="videoPlayer" controls class="w-full rounded-md shadow-xl bg-black" poster=""></video>
       <div id="playButton" onclick="startPlayback()" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 cursor-pointer">
         <div class="bg-white bg-opacity-90 rounded-full p-4 hover:scale-105 transition">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-black" viewBox="0 0 20 20" fill="currentColor">
             <path d="M6.5 5.5v9l7-4.5-7-4.5z" />
           </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Box -->
+    <div id="chatContainer" class="w-full md:w-80 bg-gray-800 rounded-lg shadow-lg flex flex-col">
+      <div class="p-3 border-b border-gray-700 flex justify-between items-center">
+        <span class="font-semibold">Live Chat</span>
+        <button onclick="toggleChat()" class="md:hidden text-sm text-gray-400">Tutup</button>
+      </div>
+      <div id="chatMessages" class="flex-1 p-3 overflow-y-auto text-sm space-y-2 h-64 md:h-[32rem]"></div>
+      <div class="p-3 border-t border-gray-700">
+        <div class="flex items-center gap-2">
+          <input type="text" id="chatInput" placeholder="Ketik pesan..." class="flex-1 px-3 py-1 text-black rounded" />
+          <button onclick="toggleEmoji()" class="text-xl">😊</button>
+          <button onclick="sendMessage()" class="bg-blue-600 px-3 py-1 rounded text-sm">Kirim</button>
+        </div>
+        <div id="emojiPicker" class="mt-2 hidden cursor-pointer">
+          😀 😁 😂 🤣 😍 😎 🤔 🙌 👏 💯
         </div>
       </div>
     </div>
@@ -53,17 +78,14 @@
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQualityByHeight(720)">720p</button>
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQualityByHeight(1080)">1080p</button>
   </div>
-  </div>
-  </div>
-  
+
   <!-- Pilih Channel -->
   <div class="flex justify-center gap-3 mt-4 flex-wrap text-sm">
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(0)">1</button>
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">2</button>
     <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">3</button>
-    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(3)">3</button>
-    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(4)">3</button>
-
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(3)">4</button>
+    <button class="bg-gray-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(4)">5</button>
   </div>
 
   <!-- QR Donasi -->
@@ -87,25 +109,19 @@
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/M4oX2s9G/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/PLLWqUYr/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/KFBSjhzv/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/uts5S1E9/live.isml/.m3u8",
-      "",
-      "",
-
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/uts5S1E9/live.isml/.m3u8"
     ];
-
+    
     const posterURLs = [
       "",
       "",
       ""
     ];
 
-    let hls;
+    let hls;;
 
     function loadStream(index) {
       const src = streamURLs[index];
-      const poster = posterURLs[index];
-      video.poster = poster;
-
       if (Hls.isSupported()) {
         if (hls) hls.destroy();
         hls = new Hls();
@@ -114,8 +130,6 @@
       } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
         video.src = src;
       }
-
-      // Reset play button
       playBtn.classList.remove("hidden");
       video.pause();
     }
@@ -140,9 +154,71 @@
       }
     }
 
+    // Chat Functions
+    let username = localStorage.getItem("chatUsername");
+    if (!username) {
+      document.getElementById("loginPopup").classList.remove("hidden");
+    }
+
+    function saveUsername() {
+      const name = document.getElementById("usernameInput").value.trim();
+      if (name) {
+        localStorage.setItem("chatUsername", name);
+        username = name;
+        document.getElementById("loginPopup").classList.add("hidden");
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("chatInput");
+      const msg = input.value.trim();
+      if (!msg) return;
+      appendMessage(username, msg);
+      input.value = "";
+    }
+
+    function appendMessage(user, message) {
+      const container = document.getElementById("chatMessages");
+      const div = document.createElement("div");
+      div.innerHTML = `<strong>${user}</strong>: ${message}`;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function toggleEmoji() {
+      const emoji = document.getElementById("emojiPicker");
+      emoji.classList.toggle("hidden");
+    }
+
+    document.querySelectorAll("#emojiPicker span, #emojiPicker").forEach(el => {
+      el.addEventListener("click", e => {
+        const emoji = e.target.innerText;
+        const input = document.getElementById("chatInput");
+        input.value += emoji;
+        input.focus();
+      });
+    });
+
+    function toggleChat() {
+      document.getElementById("chatContainer").classList.toggle("hidden");
+    }
+
     window.onload = () => {
       loadStream(0);
     };
   </script>
+
+  <style>
+    @media (max-width: 768px) {
+      #chatContainer {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 70%;
+        z-index: 40;
+      }
+    }
+  </style>
 </body>
 </html>
