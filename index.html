@@ -31,8 +31,7 @@
   <!-- Video Container -->
   <div class="flex justify-center mt-4 px-4 relative">
     <div class="relative w-full max-w-4xl">
-      <video id="videoPlayer" controls class="w-full rounded-md shadow-xl bg-black"
-        poster=""></video>
+      <video id="videoPlayer" controls class="w-full rounded-md shadow-xl bg-black" poster=""></video>
 
       <!-- Custom Play Button -->
       <div id="playButton" onclick="startPlayback()" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 cursor-pointer">
@@ -53,18 +52,15 @@
     <button class="bg-blue-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQualityByHeight(720)">720p</button>
     <button class="bg-blue-700 px-3 py-1 rounded hover:bg-blue-600" onclick="setQualityByHeight(1080)">1080p</button>
   </div>
-  </div>
-  </div>
-  
+
   <!-- Pilih Channel -->
   <div class="flex justify-center gap-3 mt-4 flex-wrap text-sm">
-    <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">Korea vs France</button>
-    <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">Bulgaria vs Poland | 12:30 WIB</button>
-    <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(3)">Japan vs Brazil | 17:20 WIB</button>
-    <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(4)">Czechia vs Belgium | 17:30 WIB</button>
+    <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(0)">Korea vs France</button>
+    <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(1)">Bulgaria vs Poland | 12:30 WIB</button>
+    <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(2)">Japan vs Brazil | 17:20 WIB</button>
+    <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(3)">Czechia vs Belgium | 17:30 WIB</button>
     <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(4)">Netherlands vs Italy | 21:00 WIB</button>
-    <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(4)">Germany vs Dominican | 23:30 WIB</button
-
+    <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(5)">Germany vs Dominican | 23:30 WIB</button>
   </div>
 
   <!-- QR Donasi -->
@@ -75,8 +71,10 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="text-center text-xs text-gray-400 mt-auto py-4">© 2025 GameOnX</footer>
+  <!-- Footer (selalu di bawah layar) -->
+  <footer class="text-center text-xs text-gray-400 mt-auto py-4">
+    © 2025 GameOnX
+  </footer>
 
   <!-- JS -->
   <script>
@@ -89,16 +87,11 @@
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/KFBSjhzv/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/uts5S1E9/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/PXv9vWrO/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/O8t0B4Zz/live.isml/.m3u8",
-      "",
-      "",
-
+      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/O8t0B4Zz/live.isml/.m3u8"
     ];
 
     const posterURLs = [
-      "",
-      "",
-      ""
+      "", "", "", "", "", ""
     ];
 
     let hls;
