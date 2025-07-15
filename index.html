@@ -13,7 +13,7 @@
   <!-- Header -->
   <header class="flex justify-between items-center px-4 py-3">
     <div>
-      <img src="assets/ferereeeeeeeeeeeeeeeeeeeeeeeeeeeeeee besar 2.png" alt="GameOnX Logo" class="h-12 w-auto sm:h-10 md:h-12 lg:h-16">
+      <img src="assets/ferereeeeeeeeeeeeeeeeeeeeeeeeeeeeeee besar.png" alt="GameOnX Logo" class="h-12 w-auto sm:h-10 md:h-12 lg:h-18">
     </div>
     <div class="flex gap-2 text-sm">
       <a href="https://chat.whatsapp.com/L9pViyD35Zq439t75avxq8" target="_blank" class="bg-green-600 px-3 py-1 rounded-lg font-semibold">Join Grup</a>
@@ -29,18 +29,10 @@
   </div>
 
   <!-- Video Container -->
-  <div class="flex justify-center mt-4 px-4 relative">
-    <div class="relative w-full max-w-4xl">
-      <video id="videoPlayer" controls class="w-full rounded-md shadow-xl bg-black" poster=""></video>
-
-      <!-- Custom Play Button -->
-      <div id="playButton" onclick="startPlayback()" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 cursor-pointer">
-        <div class="bg-white bg-opacity-90 rounded-full p-4 hover:scale-105 transition">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-black" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M6.5 5.5v9l7-4.5-7-4.5z" />
-          </svg>
-        </div>
-      </div>
+  <div class="flex justify-center mt-4 px-4">
+    <div class="w-full max-w-4xl">
+      <video id="videoPlayer" controls class="w-full rounded-md shadow-xl bg-black"
+        poster="assets/poster.png"></video>
     </div>
   </div>
 
@@ -80,7 +72,6 @@
   <!-- JavaScript -->
   <script>
     const video = document.getElementById("videoPlayer");
-    const playBtn = document.getElementById("playButton");
 
     const streamURLs = [
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/CEwkrUIi/live.isml/.m3u8",
@@ -115,25 +106,18 @@
 
       if (Hls.isSupported()) {
         if (hls) hls.destroy();
-        hls = new Hls({ autoStartLoad: false }); // penting agar tidak autoplay
+        hls = new Hls({ autoStartLoad: false });
         hls.loadSource(src);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
-          video.pause();
-          playBtn.classList.remove("hidden");
+          video.pause(); // cegah autoplay
         });
       } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
         video.src = src;
         video.addEventListener("loadedmetadata", () => {
           video.pause();
-          playBtn.classList.remove("hidden");
         }, { once: true });
       }
-    }
-
-    function startPlayback() {
-      video.play();
-      playBtn.classList.add("hidden");
     }
 
     function setQuality(level) {
@@ -150,11 +134,6 @@
         alert("Resolusi tidak tersedia");
       }
     }
-
-    // Autoplay DISABLED
-    // window.onload = () => {
-    //   loadStream(0);
-    // };
   </script>
 </body>
 </html>
