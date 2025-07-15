@@ -13,7 +13,7 @@
   <!-- Header -->
   <header class="flex justify-between items-center px-4 py-3">
     <div>
-    <img src="assets/ferereeeeeeeeeeeeeeeeeeeeeeeeeeeeeee besar.png" alt="GameOnX Logo" class="h-12 w-auto sm:h-10 md:h-12 lg:h-18">
+      <img src="assets/ferereeeeeeeeeeeeeeeeeeeeeeeeeeeeeee besar.png" alt="GameOnX Logo" class="h-12 w-auto sm:h-10 md:h-12 lg:h-18">
     </div>
     <div class="flex gap-2 text-sm">
       <a href="https://chat.whatsapp.com/L9pViyD35Zq439t75avxq8" target="_blank" class="bg-green-600 px-3 py-1 rounded-lg font-semibold">Join Grup</a>
@@ -62,7 +62,6 @@
     <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(4)">Ukraine vs Netherlands | 18:00 WIB</button>
     <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(5)">Bulgaria vs Cuba | 21:30 WIB</button>
     <button class="bg-red-700 px-3 py-1 rounded hover:bg-blue-600" onclick="loadStream(6)">Serbia vs Italy | 21:30 WIB</button>
-
   </div>
 
   <!-- QR Donasi -->
@@ -73,12 +72,12 @@
     </div>
   </div>
 
-  <!-- Footer (selalu di bawah layar) -->
+  <!-- Footer -->
   <footer class="text-center text-xs text-gray-400 mt-auto py-4">
     © 2025 GameOnX
   </footer>
 
-  <!-- JS -->
+  <!-- JavaScript -->
   <script>
     const video = document.getElementById("videoPlayer");
     const playBtn = document.getElementById("playButton");
@@ -91,7 +90,6 @@
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/TEhReGMZ/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/V6w4qjWq/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/vAtfQvic/live.isml/.m3u8"
-      
     ];
 
     const posterURLs = [
@@ -101,13 +99,16 @@
       "https://cdn.jwplayer.com/v2/media/m6YUKMXa/poster.jpg?width=1920",
       "https://cdn.jwplayer.com/v2/media/TEhReGMZ/poster.jpg?width=1920",
       "https://cdn.jwplayer.com/v2/media/V6w4qjWq/poster.jpg?width=1920",
-      "https://cdn.jwplayer.com/v2/media/vAtfQvic/poster.jpg?width=1920",
-      ""
+      "https://cdn.jwplayer.com/v2/media/vAtfQvic/poster.jpg?width=1920"
     ];
 
     let hls;
+    let currentIndex = null;
 
     function loadStream(index) {
+      if (currentIndex === index) return;
+      currentIndex = index;
+
       const src = streamURLs[index];
       const poster = posterURLs[index];
       video.poster = poster;
@@ -121,7 +122,6 @@
         video.src = src;
       }
 
-      // Reset play button
       playBtn.classList.remove("hidden");
       video.pause();
     }
@@ -146,9 +146,10 @@
       }
     }
 
-    window.onload = () => {
-      loadStream(0);
-    };
+    // Autoplay DISABLED:
+    // window.onload = () => {
+    //   loadStream(0);
+    // };
   </script>
 </body>
 </html>
