@@ -6,6 +6,30 @@
   <title>GameOnX Live Streaming</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <style>
+    .glow-effect {
+      box-shadow:
+        0 0 10px rgba(75, 85, 99, 0.5),
+        0 0 20px rgba(75, 85, 99, 0.3);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .glow-effect:hover {
+      box-shadow:
+        0 0 12px rgba(75, 85, 99, 0.7),
+        0 0 25px rgba(75, 85, 99, 0.4);
+    }
+
+    .channel-card {
+      transition: box-shadow 0.3s ease;
+    }
+
+    .channel-card:hover {
+      box-shadow:
+        0 0 12px rgba(239, 68, 68, 0.6),
+        0 0 24px rgba(239, 68, 68, 0.4);
+    }
+  </style>
 </head>
 
 <body class="bg-gray-900 text-white font-sans min-h-screen flex flex-col">
@@ -21,7 +45,7 @@
   </header>
 
   <div class="text-center mt-4 mb-2">
-    <div class="inline-block bg-gradient-to-r from-blue-700 to-purple-700 px-6 py-2 rounded-xl text-lg font-bold shadow-lg">
+    <div class="inline-block bg-gradient-to-r from-teal-500 to-emerald-500 px-6 py-2 rounded-2xl text-lg font-bold shadow-[4px_4px_0px_rgba(0,0,0,0.2)] tracking-wide animate-pulse border border-white/10 backdrop-blur-sm transform transition-transform duration-300 hover:scale-105 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.3)]">
       Live Streaming | Rabu 16-07-2025
     </div>
   </div>
