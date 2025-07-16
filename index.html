@@ -42,23 +42,23 @@
 
   <div class="flex justify-center mt-10 px-4">
     <div class="flex flex-wrap justify-center gap-6 max-w-6xl">
-      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStream(0)">
+      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStreamCustom(this)" data-src="https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/bdaesExS/live.isml/.m3u8" data-poster="https://cdn.jwplayer.com/v2/media/bdaesExS/poster.jpg?width=1920">
         <h3 class="text-white font-semibold border-b border-gray-500 mb-2">Germany vs Japan</h3>
         <p class="text-gray-300 text-sm">17:20 WIB</p>
       </div>
-      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStream(1)">
+      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStreamCustom(this)" data-src="https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/m6YUKMXa/live.isml/.m3u8" data-poster="https://cdn.jwplayer.com/v2/media/m6YUKMXa/poster.jpg?width=1920">
         <h3 class="text-white font-semibold border-b border-gray-500 mb-2">China vs France</h3>
         <p class="text-gray-300 text-sm">18:00 WIB</p>
       </div>
-      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStream(2)">
+      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStreamCustom(this)" data-src="https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/TEhReGMZ/live.isml/.m3u8" data-poster="https://cdn.jwplayer.com/v2/media/TEhReGMZ/poster.jpg?width=1920">
         <h3 class="text-white font-semibold border-b border-gray-500 mb-2">Ukraine vs Netherlands</h3>
         <p class="text-gray-300 text-sm">18:00 WIB</p>
       </div>
-      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStream(3)">
+      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStreamCustom(this)" data-src="https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/V6w4qjWq/live.isml/.m3u8" data-poster="https://cdn.jwplayer.com/v2/media/V6w4qjWq/poster.jpg?width=1920">
         <h3 class="text-white font-semibold border-b border-gray-500 mb-2">Bulgaria vs Cuba</h3>
         <p class="text-gray-300 text-sm">21:30 WIB</p>
       </div>
-      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStream(4)">
+      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStreamCustom(this)" data-src="https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/vAtfQvic/live.isml/.m3u8" data-poster="https://cdn.jwplayer.com/v2/media/vAtfQvic/poster.jpg?width=1920">
         <h3 class="text-white font-semibold border-b border-gray-500 mb-2">Serbia vs Italy</h3>
         <p class="text-gray-300 text-sm">21:30 WIB</p>
       </div>
@@ -80,31 +80,11 @@
     const video = document.getElementById("videoPlayer");
     video.muted = true;
 
-    const streamURLs = [
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/bdaesExS/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/m6YUKMXa/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/TEhReGMZ/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/V6w4qjWq/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/vAtfQvic/live.isml/.m3u8"
-    ];
-
-    const posterURLs = [
-      "https://cdn.jwplayer.com/v2/media/bdaesExS/poster.jpg?width=1920",
-      "https://cdn.jwplayer.com/v2/media/m6YUKMXa/poster.jpg?width=1920",
-      "https://cdn.jwplayer.com/v2/media/TEhReGMZ/poster.jpg?width=1920",
-      "https://cdn.jwplayer.com/v2/media/V6w4qjWq/poster.jpg?width=1920",
-      "https://cdn.jwplayer.com/v2/media/vAtfQvic/poster.jpg?width=1920"
-    ];
-
     let hls;
-    let currentIndex = null;
 
-    function loadStream(index) {
-      if (currentIndex === index) return;
-      currentIndex = index;
-
-      const src = streamURLs[index];
-      const poster = posterURLs[index];
+    function loadStreamCustom(el) {
+      const src = el.dataset.src;
+      const poster = el.dataset.poster;
       video.poster = poster;
 
       if (Hls.isSupported()) {
