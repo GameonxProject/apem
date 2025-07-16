@@ -41,15 +41,6 @@
   </div>
 
   <div class="flex justify-center mt-10 px-4">
-    <div class="flex flex-wrap justify-center gap-4 max-w-6xl">
-      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStream(0)">
-        <h3 class="text-white font-semibold border-b border-gray-500 mb-2">Argentina vs Brazil</h3>
-        <p class="text-gray-300 text-sm">10:00 WIB</p>
-      </div>
-      <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStream(1)">
-        <h3 class="text-white font-semibold border-b border-gray-500 mb-2">Turkiye vs USA</h3>
-        <p class="text-gray-300 text-sm">13:30 WIB</p>
-      </div>
       <div class="bg-gray-800 rounded-xl p-4 shadow-md w-64 cursor-pointer hover:bg-red-700 text-center" onclick="loadStream(2)">
         <h3 class="text-white font-semibold border-b border-gray-500 mb-2">Germany vs Japan</h3>
         <p class="text-gray-300 text-sm">17:20 WIB</p>
@@ -89,8 +80,6 @@
     video.muted = true;
 
     const streamURLs = [
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/CEwkrUIi/live.isml/.m3u8",
-      "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/vuDviDK8/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/bdaesExS/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/m6YUKMXa/live.isml/.m3u8",
       "https://livecdn.euw1-0005.jwplive.com/live/sites/fM9jRrkn/media/TEhReGMZ/live.isml/.m3u8",
@@ -99,8 +88,6 @@
     ];
 
     const posterURLs = [
-      "https://cdn.jwplayer.com/v2/media/CEwkrUIi/poster.jpg?width=1920",
-      "https://cdn.jwplayer.com/v2/media/vuDviDK8/poster.jpg?width=1920",
       "https://cdn.jwplayer.com/v2/media/bdaesExS/poster.jpg?width=1920",
       "https://cdn.jwplayer.com/v2/media/m6YUKMXa/poster.jpg?width=1920",
       "https://cdn.jwplayer.com/v2/media/TEhReGMZ/poster.jpg?width=1920",
